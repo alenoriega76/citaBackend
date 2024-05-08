@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario Motivos de Oración</title>
+</head>
+<body>
+  <h1>Formulario de Motivos de Oración</h1>
+  <form action="/motivos" method="POST">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required><br><br>
+    
+    <label for="email">Correo Electrónico:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="telefono">Telefono:</label>
+    <input type="text" id="telefono" name="telefono" required><br><br>
+    
+    <label for="motivo">Motivo de Oración:</label>
+    <textarea cols="30" rows="20" id=" motivo" name="motivo"></textarea>
+    <input type="hidden" name="id_usuario" value="<%= id_user %>">
+
+    
+    <button type="submit">Enviar</button>
+  </form>
+</body>
+</html>
