@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const usuario= require('../model/modelUser');
+const Usuario= require('../model/modelUser');
 const Pedido= require('../model/modelPedido')
 const Sequelize = require('../db/dbConexion') 
 const renderIndex= (req,res)=>{
@@ -34,47 +34,79 @@ const renderMujeres=(req,res)=>{
   res.render('mujeres');
 }
 
-const createUser = async (req, res) => {
-    const { id_user, name_user, email, telefono, mensaje } = req.body;
-    const mensajeValue = typeof mensaje === 'string' && mensaje.trim() !== '' ? mensaje.trim() : null;
-    console.log('Valor de mensaje recibido:', mensajeValue); 
-    try {
-      const newUser = await usuario.create({
-        id_user, name_user, email, telefono, mensaje: mensajeValue
-      });
-      console.log("Usuario Creado Con Éxito");
-      res.status(200).json(newUser);
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: "Error al crear el usuario" });
-    }
-  };
 
-const getUser = async (req,res)=>{
-  try{
-const users = await usuario.findAll();
-res.render('getUser',{users : users});
-  }catch(err){
-    comsole.log(err);
-    res.status(500).send("Error al obtener los usuarios!")
+const createUser = async (req, res) => {
+ 
+  const {id_user,name_user, email,  telefono,mensaje } = req.body;
+  try {
+    
+
+    const newUser = await Usuario.create({
+      
+      id_user,
+      name_user,
+      email,
+      telefono,
+      mensaje
+    });
+
+    console.log("Usuario creado con éxito");
+    res.status(200).json(newUser);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Error al crear un usuario" });
   }
 }
-const deleteUser= async (req,res)=>{
-  const {id} =req.params;
-  try{
-    const usuario= await usuario.findByPk(id);
-    if(!user){
-      
+
+const getUser = async (req, res) => {
+  try {
+    const users = await Usuario.findAll();
+    console.log(users)
+    if (users.length === 0) {
+      res.render('getUser', { message: 'No hay usuarios registrados.' });
+    } else {
+      res.render('getUser', { users: users });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al obtener los usuarios!");
+  }
+};
+
+
+
+
+const deleteUserForm = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const usuario = await Usuario.findByPk(id); 
+    if (!usuario) { 
       return res.status(404).send("Usuario no encontrado");
     }
-    await user.destroy();
-    res.status(200).send("Usuario eliminado con éxito");
-  } catch(err){
-    comsole.log(err);
-    res.status(500).send(" Error al eliminar el usuario");
+
+    res.render('deleteUser', { usuario }); 
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al cargar el usuario.");
   }
-  
-}
+};
+
+
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const usuario = await Usuario.findByPk(id); 
+    if (!usuario) { 
+      return res.status(404).send("Usuario no encontrado");
+    }
+
+    await usuario.destroy(); 
+    res.send("Usuario eliminado con éxito");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al eliminar el usuario.");
+  }
+};
 
   const crearMotivoOracion = async (req, res) => {
     const { id_user, id_pedido, pedido ,nombre, email, telefono} = req.body;
@@ -107,25 +139,37 @@ const deleteUser= async (req,res)=>{
     }
   }
 
-  const deletePedido = async (req, res) => {
-    const { id } = req.params;
-    console.log("ID del pedido a eliminar:", id);
-    try {
-        // Busca el pedido por su ID
-        const pedido = await Pedido.findByPk(id);
-        if (!pedido) {
-            return res.status(404).send("Pedido no encontrado");
-        }
 
-        // Elimina el pedido
-        await pedido.destroy();
-        
-        // Envía una respuesta de éxito
-        res.status(200).send("Pedido eliminado con éxito");
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Error al eliminar el pedido.");
+const deletePedidoForm = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const pedido = await Pedido.findByPk(id);
+    if (!pedido) {
+      return res.status(404).send("Pedido no encontrado");
     }
+
+    res.render('deletePedido', { pedido });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al cargar el pedido.");
+  }
+};
+
+
+const deletePedido = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const pedido = await Pedido.findByPk(id);
+    if (!pedido) {
+      return res.status(404).send("Pedido no encontrado");
+    }
+
+    await pedido.destroy();
+    res.send("Pedido eliminado correctamente");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al eliminar el pedido.");
+  }
 };
 
 
@@ -133,4 +177,4 @@ module.exports = {renderIndex, renderContacto,renderMinisterios,
      renderSiembra, renderHombres,renderCitaKids,
      renderMatrimonios,getUser, renderMusica,createUser,renderMotivos ,
      renderMujeres,deletePedido,
-     deleteUser, getPedido,crearMotivoOracion}
+     deleteUser, getPedido, deleteUserForm,crearMotivoOracion,deletePedidoForm}

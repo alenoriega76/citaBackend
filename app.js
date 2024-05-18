@@ -2,11 +2,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 const Sequelize = require('./db/dbConexion');
 const port = 3500;
 
 const corsOptions = {
-    origin: 'http://localhost:5173', // Reemplaza con la URL de tu frontend
+    origin: 'http://localhost:5173',
     methods: 'GET, POST, HEAD, PUT, DELETE, PATCH',
     allowedHeaders: 'Content-Type, Authorization',
 };
@@ -14,10 +15,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.set('view engine', 'ejs');
-//app.use(express.static('public'));
-app.use('/img', express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
+//app.use('/img', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(
     session({
         secret:'Capitan20',

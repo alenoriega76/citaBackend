@@ -1,7 +1,7 @@
 const Sequelize = require('../db/dbConexion');
 const { DataTypes } = require('sequelize');
 
-const usuario = Sequelize.define('usuario', {
+const Usuario = Sequelize.define('usuario', {
   id_user: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -20,11 +20,11 @@ const usuario = Sequelize.define('usuario', {
     type: DataTypes.TEXT,
    }
 }, {
-  tableName: 'usuarios', // Nombre de la tabla en la base de datos
-  timestamps: false, // Indica si se deben incluir las columnas createdAt y updatedAt en la tabla
+  tableName: 'usuarios', 
+  timestamps: false, 
 });
 
 
  
 
-module.exports =usuario
+module.exports =Usuario

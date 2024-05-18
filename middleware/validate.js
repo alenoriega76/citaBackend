@@ -6,7 +6,7 @@ const validate =[
     body('name_user').notEmpty().withMessage('Este campo no puede estar vacío'),
   body('email').notEmpty().withMessage('Este campo no puede estar vacío').isEmail().withMessage('Debe ser un correo electrónico válido'),
   body('telefono').notEmpty().withMessage('Este campo no puede estar vacío'),
-
+    body('mensaje').notEmpty().withMessage('Este campo no puede estar vacío'),
     (req, res, next) => {
         const errors = validationResult(req);
         console.log(req.body)

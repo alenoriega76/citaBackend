@@ -4,12 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Borrar Usuario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 50px;
+        }
+        form {
+            margin: 20px auto;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Eliminar Usuario</h1>
-    <form method="POST" action="/deleteuser/<%= users.id_user %>">
-        <p>¿Estás seguro de que deseas eliminar el pedido con ID <%= user.id_user %>?</p>
+    <h1> Ud está por eliminar un Usuario</h1>
+    <form method="POST" action="/deleteUser/<%= usuario.id_user %>">
+        <p>¿Estás seguro de que deseas eliminar al usuario con ID <%= usuario.id_user %>?</p>
         <button type="submit">Eliminar</button>
     </form>
 </body>
-</html>
+</
